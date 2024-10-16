@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type TName = {
   firstName: string;
   middleName?: string;
@@ -14,12 +16,17 @@ export type TUser = {
   lastLogin: Date;
   password: string;
   passwordChangedAt?: Date;
-  // role:
-  //status:
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   presentAddress: string;
   permanentAddress: string;
-  isDeleted: boolean;
 };
+
+export interface UserModel extends Model<TUser> {
+  isUserExist(id: string): Promise<TUser | null>;
+  isPasswordMatched(
+    inputPassword: string,
+    storedPassword: string,
+  ): Promise<boolean>;
+}

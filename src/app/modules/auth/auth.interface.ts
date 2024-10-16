@@ -1,11 +1,4 @@
-type TUserName = {
-  userName: string;
-};
-type TUserEmail = {
-  email: string;
-};
-
 export type TAuth = {
-  loginId: TUserName | TUserEmail;
+  identifier: string;
   password: string;
 };

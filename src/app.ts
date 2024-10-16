@@ -1,7 +1,10 @@
-import express, { Application } from 'express';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express, { Application } from 'express';
+import GlobalErrorHandler from './app/middleware/globalErrorHandler';
+import notFound from './app/middleware/notFound';
 import router from './app/routes';
+
 export const app: Application = express();
 
 app.use(express.json());
@@ -14,6 +17,9 @@ app.use(
 );
 
 app.use('/api/v1', router);
+
+app.use(GlobalErrorHandler);
+app.use(notFound);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
