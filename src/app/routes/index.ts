@@ -5,6 +5,10 @@ const router = Router();
 
 const moduleRoutes = [
   {
+    path: '/users',
+    element: AuthRoutes,
+  },
+  {
     path: '/auth',
     element: AuthRoutes,
   },

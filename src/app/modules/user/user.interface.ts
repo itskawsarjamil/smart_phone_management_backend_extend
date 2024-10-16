@@ -16,9 +16,10 @@ export type TUser = {
   lastLogin: Date;
   password: string;
   passwordChangedAt?: Date;
+  needPasswordChange: boolean;
   contactNo: string;
   emergencyContactNo: string;
-  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  bloodGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   presentAddress: string;
   permanentAddress: string;
 };
