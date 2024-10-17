@@ -15,8 +15,6 @@ const createUserIntoDB = async (payload: TUser) => {
   const newUserId = await generateUserId();
   modifiedData.id = newUserId;
 
-  var a = 0;
-  // console.log(newUserId);
   // console.log(modifiedData);
   const result = await User.create(modifiedData);
   return result;
