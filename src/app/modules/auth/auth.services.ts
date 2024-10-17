@@ -6,6 +6,7 @@ import { createToken, verifyToken } from './auth.utils';
 import { AppError } from '../../errors/appError';
 import { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import sendEmail from '../../utils/sendEmail';
 const loginUser = async (payload: TAuth) => {
   // const result=await
 
@@ -145,9 +146,8 @@ const forgetPassword = async ({ id }: { id: string }) => {
     '10m',
   );
   const resetUiLink = `${config.reset_pass_ui_link}?id=${user.id}&token=${resetToken}`;
-  return {
-    resetUiLink,
-  };
+  sendEmail(user.email, resetUiLink);
+  return resetUiLink;
 };
 const resetPassword = async (
   payload: { id: string; newPassword: string },

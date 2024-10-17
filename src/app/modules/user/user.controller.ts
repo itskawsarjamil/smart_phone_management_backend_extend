@@ -5,13 +5,16 @@ import { userServices } from './user.services';
 import { send } from 'process';
 
 const createUser = catchAsync(async (req, res) => {
-  const result = await userServices.createUserIntoDB(req.body);
+  const file = req.file;
+
+  const result = await userServices.createUserIntoDB(file, req.body);
 
   sendResponse(res, {
     success: true,
     message: 'User Creation Successfull',
     statusCode: httpStatus.OK,
     data: result,
+    // data: null,
   });
 });
 
