@@ -1,3 +1,4 @@
+import { USER_ROLE } from './user.const';
 import { Model } from 'mongoose';
 
 export type TName = {
@@ -12,16 +13,18 @@ export type TUser = {
   userName: string;
   email: string;
   bio: string;
-  profileImg?: string;
+  profileImg: string;
   lastLogin: Date;
   password: string;
-  passwordChangedAt?: Date;
+  passwordChangedAt: Date;
   needPasswordChange: boolean;
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   presentAddress: string;
   permanentAddress: string;
+  isDeleted: boolean;
+  role: 'superAdmin' | 'user';
 };
 
 export interface UserModel extends Model<TUser> {
@@ -30,4 +33,10 @@ export interface UserModel extends Model<TUser> {
     inputPassword: string,
     storedPassword: string,
   ): Promise<boolean>;
+  isJWTIssuedBeforePasswordChanged(
+    iat: number,
+    lastPassChangedTime: Date,
+  ): Promise<boolean>;
 }
+
+export type TUserRole = keyof typeof USER_ROLE;

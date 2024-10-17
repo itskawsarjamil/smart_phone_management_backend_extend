@@ -21,7 +21,10 @@ const createUserValidationSchema = z.object({
     email: z.string().email('Please enter a valid email address'),
     bio: z.string().max(250, 'Bio cannot exceed 250 characters').optional(),
     profileImg: z.string().url('Profile Image must be a valid URL').optional(),
-    password: z.string().min(6, 'Password must be at least 6 characters long'),
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters long')
+      .optional(),
     contactNo: z
       .string()
       .regex(

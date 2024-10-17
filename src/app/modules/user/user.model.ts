@@ -3,21 +3,24 @@ import { TName, TUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
-const nameSchema = new Schema<TName>({
-  firstName: {
-    type: String,
-    required: [true, 'First Name is required'],
-    minlength: [3, 'Name must be at least 3 characters long'],
-    maxlength: [50, 'Name cannot exceed 50 characters'],
+const nameSchema = new Schema<TName>(
+  {
+    firstName: {
+      type: String,
+      required: [true, 'First Name is required'],
+      minlength: [3, 'Name must be at least 3 characters long'],
+      maxlength: [50, 'Name cannot exceed 50 characters'],
+    },
+    middleName: String,
+    lastName: {
+      type: String,
+      required: [true, 'Last Name is required'],
+      minlength: [3, 'Name must be at least 3 characters long'],
+      maxlength: [50, 'Name cannot exceed 50 characters'],
+    },
   },
-  middleName: String,
-  lastName: {
-    type: String,
-    required: [true, 'Last Name is required'],
-    minlength: [3, 'Name must be at least 3 characters long'],
-    maxlength: [50, 'Name cannot exceed 50 characters'],
-  },
-});
+  { _id: false },
+);
 
 const userSchema = new Schema<TUser, UserModel>(
   {
@@ -26,7 +29,7 @@ const userSchema = new Schema<TUser, UserModel>(
       required: [true, 'User ID is required'],
       unique: true,
     },
-    name: nameSchema,
+    name: { type: nameSchema, required: [true, 'Name is required'] },
     userName: {
       type: String,
       required: [true, 'Username is required'],
@@ -38,7 +41,6 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       required: [true, 'Email is required'],
       unique: true,
-      lowercase: true,
       match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address'],
     },
     bio: {
@@ -87,7 +89,7 @@ const userSchema = new Schema<TUser, UserModel>(
     bloodGroup: {
       type: String,
       enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-      required: [true, 'bloodGroup is required'],
+      required: [true, 'blood Group is required'],
     },
     presentAddress: {
       type: String,
@@ -100,6 +102,11 @@ const userSchema = new Schema<TUser, UserModel>(
       required: [true, 'Permanent address is required'],
       minlength: [5, 'Permanent address must be at least 5 characters long'],
       maxlength: [100, 'Permanent address cannot exceed 100 characters'],
+    },
+    role: { type: String, enum: ['superAdmin', 'user'], default: 'user' },
+    isDeleted: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -116,20 +123,16 @@ userSchema.virtual('fullName').get(function () {
 });
 
 userSchema.pre('save', async function (next) {
-  console.log(this);
   const pass = this.password;
   this.password = await bcrypt.hash(pass, Number(config.bcrypt_salt_rounds));
   next();
 });
 userSchema.post('save', function (doc, next) {
-  console.log(this);
-  console.log(doc);
   doc.password = '';
-  console.log(doc);
   next();
 });
 userSchema.statics.isUserExist = async function (id: string) {
-  return await User.findOne({ id }).select('+select');
+  return await User.findOne({ id }).select('+password');
 };
 
 userSchema.statics.isPasswordMatched = async function (
@@ -137,6 +140,15 @@ userSchema.statics.isPasswordMatched = async function (
   storedPassword,
 ) {
   return await bcrypt.compare(inputPassword, storedPassword);
+};
+
+userSchema.statics.isJWTIssuedBeforePasswordChanged = async function (
+  iat: number,
+  lastPassChangedTime: Date,
+) {
+  const passwordChangedTime = new Date(lastPassChangedTime).getTime() / 1000;
+  return passwordChangedTime > iat;
+  // if();
 };
 
 export const User = model<TUser, UserModel>('User', userSchema);

@@ -3,7 +3,7 @@ import { TUser } from '../modules/user/user.interface';
 import { User } from '../modules/user/user.model';
 
 const default_usesr: TUser = {
-  id: '0001',
+  id: 'SA-01',
   name: {
     firstName: 'Kawsar',
     lastName: 'Jamil',
@@ -11,9 +11,9 @@ const default_usesr: TUser = {
   userName: 'itskawsarjamil',
   email: 'Kawsarjamil726@gmail.com',
   bio: 'nothing fancy',
-
-  lastLogin: new Date(),
+  profileImg: '',
   password: config.super_admin_password as string,
+  lastLogin: new Date(),
   passwordChangedAt: new Date(),
   needPasswordChange: false,
   contactNo: '01234567891',
@@ -21,6 +21,8 @@ const default_usesr: TUser = {
   bloodGroup: 'B+',
   presentAddress: 'Dhaka Bangladesh',
   permanentAddress: 'Cumilla Bangladesh',
+  role: 'superAdmin',
+  isDeleted: false,
 };
 
 const seed_Admin = async () => {

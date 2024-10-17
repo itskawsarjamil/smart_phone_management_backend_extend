@@ -24,7 +24,7 @@ export default [
         "process": "readonly"
       }
     }
-  }, ,
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   prettier,

@@ -4,7 +4,7 @@ import sendResponse from '../../utils/sendResponse';
 import { authServices } from './auth.services';
 import config from '../../config';
 const loginUser = catchAsync(async (req, res) => {
-  const result = await authServices.loginUserIntoDB(req.body);
+  const result = await authServices.loginUser(req.body);
 
   res.cookie('refreshToken', result.refreshToken, {
     sameSite: config.NODE_ENV === 'development' ? 'lax' : 'none',
@@ -24,6 +24,51 @@ const loginUser = catchAsync(async (req, res) => {
   });
 });
 
+const changePassword = catchAsync(async (req, res) => {
+  const result = await authServices.changePassword(req.user, req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'password change successfull',
+    data: result,
+  });
+});
+
+const refreshToken = catchAsync(async (req, res) => {
+  const { refreshToken } = req.cookies;
+  const result = await authServices.refreshToken(refreshToken);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'access token refreshed',
+    data: result,
+  });
+});
+const forgetPassword = catchAsync(async (req, res) => {
+  const result = await authServices.forgetPassword(req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'forget password link sended',
+    data: result,
+  });
+});
+const resetPassword = catchAsync(async (req, res) => {
+  const token = req.headers.authorization as string;
+  const result = await authServices.resetPassword(req.body, token);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'password reset done',
+    data: result,
+  });
+});
+
 export const authControllers = {
   loginUser,
+  changePassword,
+  refreshToken,
+  forgetPassword,
+  resetPassword,
 };
