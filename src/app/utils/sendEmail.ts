@@ -6,14 +6,14 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: config.NODE_ENV === 'production', // true for port 465, false for other ports
   auth: {
-    user: 'Kawsarjamil726@gmail.com',
-    pass: 'buki zshf ncrx teem',
+    user: config.nodemailer_auth_user,
+    pass: config.nodemailer_auth_pass,
   },
 });
 
 const sendEmail = async (whom: string, resetURL: string) => {
   const info = await transporter.sendMail({
-    from: 'Kawsarjamil726@gmail.com', // sender address
+    from: config.nodemailer_auth_user, // sender address
     to: 'jamilkawsar726@gmail.com', // list of receivers
     subject: 'Reset Password Link', // Subject line
     text: 'Hello Forgetter. This link will active only for 10m', // plain text body
