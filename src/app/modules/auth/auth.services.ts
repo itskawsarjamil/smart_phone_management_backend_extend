@@ -7,6 +7,7 @@ import { AppError } from '../../errors/appError';
 import { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import sendEmail from '../../utils/sendEmail';
+
 const loginUser = async (payload: TAuth) => {
   // const result=await
 
@@ -28,6 +29,7 @@ const loginUser = async (payload: TAuth) => {
   if (!isMatch) {
     throw new AppError(httpStatus.FORBIDDEN, 'Password is wrong');
   }
+
   const jwtPayload = {
     id: user.id,
     role: user.role,
@@ -193,10 +195,25 @@ const resetPassword = async (
   );
 };
 
+const getMe = async ({ id, role }: JwtPayload) => {
+  switch (role) {
+    case 'user':
+      User.findOne({ id: id, role: 'user' });
+      break;
+    case 'admin':
+      User.findOne({ id: id, role: 'admin' });
+      break;
+
+    default:
+      break;
+  }
+};
+
 export const authServices = {
   loginUser,
   changePassword,
   refreshToken,
   forgetPassword,
   resetPassword,
+  getMe,
 };

@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { AuthRoutes } from '../modules/auth/auth.routes';
 import { userRoutes } from '../modules/user/user.routes';
+import { smartPhoneRouter } from '../modules/smartPhone/smartPhone.routes';
 
 const router = Router();
 
@@ -12,6 +13,10 @@ const moduleRoutes = [
   {
     path: '/auth',
     element: AuthRoutes,
+  },
+  {
+    path: '/smartphone',
+    element: smartPhoneRouter,
   },
 ];
 

@@ -1,5 +1,4 @@
 import { FilterQuery, Query } from 'mongoose';
-import { skip } from 'node:test';
 
 export class QueryBuilder<T> {
   public query: Record<string, unknown>;

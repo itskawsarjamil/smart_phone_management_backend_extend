@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import validateRequest from '../../middleware/validateRequest';
 import { userValidations } from './user.validation';
 import { userController } from './user.controller';
@@ -9,8 +9,8 @@ const router = Router();
 router.post(
   '/create-user',
   upload.single('file'),
-  (req, res, next) => {
-    req.body = JSON.parse(req.body.formData);
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req.body.data);
     next();
   },
   validateRequest(userValidations.createUserValidationSchema),

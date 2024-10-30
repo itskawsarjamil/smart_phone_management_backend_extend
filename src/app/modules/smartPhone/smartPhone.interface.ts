@@ -1,13 +1,21 @@
+import { Model } from 'mongoose';
+
 export type TSmartPhone = {
-  //   name: { type: String; required: true };
-  //   price: { type: Number; required: true };
-  //   quantity: { type: Number; required: true };
-  //   brand: { type: String; required: true };
-  //   model: { type: String; required: true };
-  //   os: { type: String; required: true };
-  //   storage: { type: Number; required: true };
-  //   screenSize: { type: Number; required: true };
-  //   cameraQuality: { type: Number; required: true };
-  //   batteryLife: { type: Number; required: true };
-  //   releaseDate: { type: Date; required: true };
+  id: string;
+  name: string;
+  model: string;
+  brand: string;
+  os: string;
+  storage: string;
+  screenSize: string;
+  cameraQuality: string;
+  batteryLife: number;
+  releaseDate: Date;
+  price: number;
+  quantity: number;
+  isDeleted: boolean;
 };
+
+export interface SmartPhoneModel extends Model<TSmartPhone> {
+  isSmartPhoneExist(identifier: string): Promise<TSmartPhone | null>;
+}
