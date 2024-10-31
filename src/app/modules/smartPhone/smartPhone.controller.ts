@@ -15,7 +15,19 @@ const createSmartPhone = catchAsync(async (req, res) => {
 });
 const getAllSmartPhones = catchAsync(async (req, res) => {
   const query = req.query;
-  const result = await smartPhoneServices.getAllSmartPhonesFromDB(query);
+  const modifiedQuery = { ...query };
+
+  if (modifiedQuery?.priceRange) {
+    const modifiedPriceRange: string[] = modifiedQuery.priceRange as string[];
+    modifiedQuery.price = {
+      $gte: modifiedPriceRange[0],
+      $lte: modifiedPriceRange[1],
+    };
+  }
+  console.log(modifiedQuery);
+
+  const result =
+    await smartPhoneServices.getAllSmartPhonesFromDB(modifiedQuery);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

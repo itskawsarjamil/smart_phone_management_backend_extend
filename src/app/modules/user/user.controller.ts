@@ -2,7 +2,6 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { userServices } from './user.services';
-import { send } from 'process';
 
 const createUser = catchAsync(async (req, res) => {
   const file = req.file;
@@ -19,7 +18,19 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 const getAllUser = catchAsync(async (req, res) => {
-  const result = await userServices.getAllUserFromDB(req.query);
+  const query = req.query;
+  const modifiedQuery = { ...query };
+
+  if (modifiedQuery?.priceRange) {
+    const modifiedPriceRange: string[] = modifiedQuery.priceRange as string[];
+    modifiedQuery.price = {
+      $gte: modifiedPriceRange[0],
+      $lte: modifiedPriceRange[1],
+    };
+  }
+  console.log(modifiedQuery);
+
+  const result = await userServices.getAllUserFromDB(modifiedQuery);
   sendResponse(res, {
     success: true,
     message: 'all user getting successfull',

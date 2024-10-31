@@ -15,7 +15,19 @@ const createSale = catchAsync(async (req, res) => {
 });
 const getAllSales = catchAsync(async (req, res) => {
   const query = req.query;
-  const result = await saleServices.getAllSalesFromDB(query);
+
+  const modifiedQuery = { ...query };
+
+  if (modifiedQuery?.priceRange) {
+    const modifiedPriceRange: string[] = modifiedQuery.priceRange as string[];
+    modifiedQuery.price = {
+      $gte: modifiedPriceRange[0],
+      $lte: modifiedPriceRange[1],
+    };
+  }
+  console.log(modifiedQuery);
+
+  const result = await saleServices.getAllSalesFromDB(modifiedQuery);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
