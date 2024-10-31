@@ -1,10 +1,7 @@
+import { Types } from 'mongoose';
 export type TSale = {
-  //   smartphone: {
-  //     type: Schema.Types.ObjectId;
-  //     ref: 'Smartphone';
-  //     required: true;
-  //   };
-  //   quantitySold: { type: Number; required: true };
-  //   buyerName: { type: String; required: true };
-  //   saleDate: { type: Date; default: Date.now };
+  smartPhone: Types.ObjectId;
+  quantitySold: number;
+  buyerName: string;
+  saleDate: Date;
 };
