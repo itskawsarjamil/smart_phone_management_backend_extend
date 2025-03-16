@@ -73,10 +73,21 @@ const deleteSmartPhone = catchAsync(async (req, res) => {
   });
 });
 
+const bulkDeleteSmartPhone = catchAsync(async (req, res) => {
+  const result = await smartPhoneServices.bulkDeleteSmartPhoneFromDb(req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Multiple phone deleted',
+    data: result,
+  });
+});
+
 export const smartPhoneController = {
   createSmartPhone,
   updateSmartPhone,
   deleteSmartPhone,
+  bulkDeleteSmartPhone,
   getAllSmartPhones,
   getSingleSmartPhone,
 };

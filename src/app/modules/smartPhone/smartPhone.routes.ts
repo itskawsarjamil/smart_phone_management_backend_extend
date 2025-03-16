@@ -27,10 +27,17 @@ routes.patch(
   auth('user'),
   smartPhoneController.updateSmartPhone,
 );
-routes.delete(
+routes.patch(
   '/delete-smartphone/:smartPhoneID',
   auth('user'),
   smartPhoneController.deleteSmartPhone,
+);
+routes.patch(
+  '/bulk-delete',
+
+  auth('user'),
+
+  smartPhoneController.bulkDeleteSmartPhone,
 );
 
 export const smartPhoneRouter = routes;

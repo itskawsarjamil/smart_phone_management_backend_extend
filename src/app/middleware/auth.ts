@@ -52,6 +52,7 @@ export const auth = (...requiredRules: TUserRole[]) => {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized');
     }
     req.user = decoded as JwtPayload & { role: string };
+
     next();
   });
 };

@@ -70,10 +70,36 @@ const deleteSmartPhoneFromDB = async (smartPhoneID: string) => {
   if (isExist.isDeleted) {
     throw new AppError(httpStatus.FORBIDDEN, 'this phone is already deleted');
   }
-  const result = SmartPhone.findOneAndUpdate(
+  const result = await SmartPhone.findOneAndUpdate(
     { _id: smartPhoneID },
     { isDeleted: true },
     { new: true, runValidators: true },
+  );
+  return result;
+};
+
+const bulkDeleteSmartPhoneFromDb = async (smartPhoneIDs: string[]) => {
+  if (!smartPhoneIDs.length) {
+    throw new AppError(httpStatus.NOT_ACCEPTABLE, 'please provide IDs');
+  }
+  const isArrayOrNot = Array.isArray(smartPhoneIDs);
+  if (!isArrayOrNot) {
+    throw new AppError(httpStatus.NOT_ACCEPTABLE, 'please provide an array');
+  }
+  //*************************** */
+
+  const count = await SmartPhone.countDocuments({
+    _id: { $in: smartPhoneIDs },
+  });
+  if (count != smartPhoneIDs.length) {
+    throw new AppError(httpStatus.FORBIDDEN, 'One or more IDs do not exist');
+  }
+
+  //************************ */;
+
+  const result = await SmartPhone.updateMany(
+    { _id: { $in: smartPhoneIDs } },
+    { isDeleted: true },
   );
   return result;
 };
@@ -99,6 +125,7 @@ export const smartPhoneServices = {
   createSmartPhoneIntoDB,
   updateSmartPhoneFromDB,
   deleteSmartPhoneFromDB,
+  bulkDeleteSmartPhoneFromDb,
   getAllSmartPhonesFromDB,
   getSingleSmartPhoneFromDB,
 };
