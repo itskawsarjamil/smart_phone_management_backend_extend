@@ -79,7 +79,7 @@ const deleteSmartPhoneFromDB = async (smartPhoneID: string) => {
 };
 
 const getAllSmartPhonesFromDB = async (query: Record<string, unknown>) => {
-  console.log(query);
+  // console.log(query);
   const smartPhoneQuery = new QueryBuilder(SmartPhone.find(), query)
     .search(['name', 'brand'])
     .filter()

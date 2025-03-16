@@ -24,7 +24,7 @@ const getAllSmartPhones = catchAsync(async (req, res) => {
       $lte: modifiedPriceRange[1],
     };
   }
-  console.log(modifiedQuery);
+  // console.log(modifiedQuery);
 
   const result =
     await smartPhoneServices.getAllSmartPhonesFromDB(modifiedQuery);

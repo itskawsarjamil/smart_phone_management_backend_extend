@@ -98,7 +98,10 @@ const changePassword = async (
     },
   );
 
-  return null;
+  return {
+    success: true,
+    message: 'password changed',
+  };
 };
 const refreshToken = async (refreshToken: string) => {
   const decoded = verifyToken(
@@ -193,20 +196,26 @@ const resetPassword = async (
       passwordChangedAt: new Date(),
     },
   );
+  return {
+    success: true,
+    message: 'Password reset successfully',
+  };
 };
 
 const getMe = async ({ id, role }: JwtPayload) => {
+  let user;
   switch (role) {
     case 'user':
-      User.findOne({ id: id, role: 'user' });
+      user = await User.findOne({ id: id, role: 'user' });
       break;
     case 'admin':
-      User.findOne({ id: id, role: 'admin' });
+      user = await User.findOne({ id: id, role: 'admin' });
       break;
 
     default:
       break;
   }
+  return user;
 };
 
 export const authServices = {

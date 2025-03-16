@@ -3,6 +3,7 @@ import validateRequest from '../../middleware/validateRequest';
 import { userValidations } from './user.validation';
 import { userController } from './user.controller';
 import { upload } from '../../utils/sendImageToCloudinary';
+import { auth } from '../../middleware/auth';
 
 const router = Router();
 
@@ -17,8 +18,16 @@ router.post(
   userController.createUser,
 );
 
-router.get('/get-all-user', userController.getAllUser);
+router.get(
+  '/get-all-user',
+  auth('superAdmin', 'user'),
+  userController.getAllUser,
+);
 
-router.get('/get-single-user/:id', userController.getSingleUser);
+router.get(
+  '/get-single-user/:id',
+  auth('superAdmin', 'user'),
+  userController.getSingleUser,
+);
 
 export const userRoutes = router;

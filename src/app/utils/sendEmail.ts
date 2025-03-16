@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async (whom: string, resetURL: string) => {
   const info = await transporter.sendMail({
     from: config.nodemailer_auth_user, // sender address
-    to: 'jamilkawsar726@gmail.com', // list of receivers
+    to: whom, // list of receivers
     subject: 'Reset Password Link', // Subject line
     text: 'Hello Forgetter. This link will active only for 10m', // plain text body
     html: `<!DOCTYPE html>

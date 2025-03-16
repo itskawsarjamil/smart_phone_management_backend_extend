@@ -28,7 +28,7 @@ const getAllUser = catchAsync(async (req, res) => {
       $lte: modifiedPriceRange[1],
     };
   }
-  console.log(modifiedQuery);
+  // console.log(modifiedQuery);
 
   const result = await userServices.getAllUserFromDB(modifiedQuery);
   sendResponse(res, {

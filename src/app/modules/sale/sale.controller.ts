@@ -25,7 +25,7 @@ const getAllSales = catchAsync(async (req, res) => {
       $lte: modifiedPriceRange[1],
     };
   }
-  console.log(modifiedQuery);
+  // console.log(modifiedQuery);
 
   const result = await saleServices.getAllSalesFromDB(modifiedQuery);
   sendResponse(res, {

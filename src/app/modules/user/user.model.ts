@@ -122,6 +122,21 @@ userSchema.virtual('fullName').get(function () {
   );
 });
 
+userSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+userSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+userSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
+
 userSchema.pre('save', async function (next) {
   const pass = this.password;
   this.password = await bcrypt.hash(pass, Number(config.bcrypt_salt_rounds));
