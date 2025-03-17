@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose';
 import { TName, TUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
+import { UserRole, UserStatus } from './user.const';
 
 const nameSchema = new Schema<TName>(
   {
@@ -103,7 +104,16 @@ const userSchema = new Schema<TUser, UserModel>(
       minlength: [5, 'Permanent address must be at least 5 characters long'],
       maxlength: [100, 'Permanent address cannot exceed 100 characters'],
     },
-    role: { type: String, enum: ['superAdmin', 'user'], default: 'user' },
+    role: {
+      type: String,
+      enum: UserRole,
+      default: 'seller',
+    },
+    status: {
+      type: String,
+      enum: UserStatus,
+      default: 'in-progress',
+    },
     isDeleted: {
       type: Boolean,
       default: false,

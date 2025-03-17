@@ -8,34 +8,34 @@ const routes = Router();
 
 routes.post(
   '/create-smartphone',
-  auth('user'),
+  auth('superAdmin', 'branchManager'),
   validateRequest(smartPhoneValidations.createSmartPhoneValidationSchema),
   smartPhoneController.createSmartPhone,
 );
 routes.get(
   '/get-all-smartphones',
-  auth('user'),
+  auth('superAdmin', 'branchManager', 'seller'),
   smartPhoneController.getAllSmartPhones,
 );
 routes.get(
   '/get-single-smartphone/:smartPhoneID',
-  auth('user'),
+  auth('superAdmin', 'branchManager', 'seller'),
   smartPhoneController.getSingleSmartPhone,
 );
 routes.patch(
   '/update-smartphone/:smartPhoneID',
-  auth('user'),
+  auth('superAdmin', 'branchManager'),
   smartPhoneController.updateSmartPhone,
 );
 routes.patch(
   '/delete-smartphone/:smartPhoneID',
-  auth('user'),
+  auth('superAdmin', 'branchManager'),
   smartPhoneController.deleteSmartPhone,
 );
 routes.patch(
   '/bulk-delete',
 
-  auth('user'),
+  auth('superAdmin', 'branchManager'),
 
   smartPhoneController.bulkDeleteSmartPhone,
 );

@@ -23,8 +23,9 @@ export type TUser = {
   bloodGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   presentAddress: string;
   permanentAddress: string;
+  status: 'in-progress' | 'blocked';
   isDeleted: boolean;
-  role: 'superAdmin' | 'user';
+  role: 'superAdmin' | 'branchManager' | 'seller';
 };
 
 export interface UserModel extends Model<TUser> {

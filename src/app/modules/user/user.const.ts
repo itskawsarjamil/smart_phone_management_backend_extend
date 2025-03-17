@@ -7,6 +7,11 @@ export const userSearchableFields = [
 ];
 
 export const USER_ROLE = {
-  user: 'user',
   superAdmin: 'superAdmin',
+  branchManager: 'branchManager',
+  seller: 'seller',
 } as const;
+
+export const UserRole = ['superAdmin', 'branchManager', 'seller'];
+
+export const UserStatus = ['in-progress', 'blocked'];

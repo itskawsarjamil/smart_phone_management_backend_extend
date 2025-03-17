@@ -18,15 +18,11 @@ router.post(
   userController.createUser,
 );
 
-router.get(
-  '/get-all-user',
-  auth('superAdmin', 'user'),
-  userController.getAllUser,
-);
+router.get('/get-all-user', auth('superAdmin'), userController.getAllUser);
 
 router.get(
   '/get-single-user/:id',
-  auth('superAdmin', 'user'),
+  auth('superAdmin'),
   userController.getSingleUser,
 );
 

@@ -11,7 +11,7 @@ const createSmartPhoneValidationSchema = z.object({
     storage: z.string(),
     screenSize: z.string(),
     cameraQuality: z.string(),
-    batteryLifee: z.number(),
+    batteryLife: z.number(),
     releaseDate: z.any(),
   }),
 });
